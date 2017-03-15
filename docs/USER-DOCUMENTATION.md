@@ -149,6 +149,19 @@ In Windows:
 set ETCHER_DISABLE_UPDATES=1
 ```
 
+Simulate an update alert
+------------------------
+
+You can set the `ETCHER_FAKE_S3_LATEST_VERSION` environment variable to a valid
+semver version (greater than the current version) to trick the application into
+thinking that what you put there is the latest available version, therefore
+causing the update notification dialog to be presented at startup.
+
+Note that the variable will be ignored if it doesn't match the release type of
+the current application version. For example,
+`ETCHER_FAKE_S3_LATEST_VERSION=2.0.0` will be ignored if you're running an
+snapshot build.
+
 Recovering broken drives
 ------------------------
 
