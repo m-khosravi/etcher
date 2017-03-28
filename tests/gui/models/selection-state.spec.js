@@ -221,7 +221,13 @@ describe('Browser: SelectionState', function() {
       beforeEach(function() {
         this.image = {
           path: 'foo.img',
-          size: 999999999,
+          size: {
+            original: 999999999,
+            final: {
+              estimation: false,
+              value: 999999999
+            }
+          },
           recommendedDriveSize: 1000000000,
           url: 'https://www.raspbian.org',
           supportUrl: 'https://www.raspbian.org/forums/',
@@ -336,7 +342,13 @@ describe('Browser: SelectionState', function() {
         it('should override the image', function() {
           SelectionStateModel.setImage({
             path: 'bar.img',
-            size: 999999999
+            size: {
+              original: 999999999,
+              final: {
+                estimation: false,
+                value: 999999999
+              }
+            }
           });
 
           const imagePath = SelectionStateModel.getImagePath();
@@ -369,7 +381,13 @@ describe('Browser: SelectionState', function() {
         it('should be able to set an image', function() {
           SelectionStateModel.setImage({
             path: 'foo.img',
-            size: 999999999
+            size: {
+              original: 999999999,
+              final: {
+                estimation: false,
+                value: 999999999
+              }
+            }
           });
 
           const imagePath = SelectionStateModel.getImagePath();
@@ -381,7 +399,13 @@ describe('Browser: SelectionState', function() {
         it('should throw if no path', function() {
           m.chai.expect(function() {
             SelectionStateModel.setImage({
-              size: 999999999
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              }
             });
           }).to.throw('Missing image path');
         });
@@ -390,7 +414,13 @@ describe('Browser: SelectionState', function() {
           m.chai.expect(function() {
             SelectionStateModel.setImage({
               path: 123,
-              size: 999999999
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              }
             });
           }).to.throw('Invalid image path: 123');
         });
@@ -403,20 +433,122 @@ describe('Browser: SelectionState', function() {
           }).to.throw('Missing image size');
         });
 
-        it('should throw if size is not a number', function() {
+        it('should throw if the original size is not a number', function() {
           m.chai.expect(function() {
             SelectionStateModel.setImage({
               path: 'foo.img',
-              size: '999999999'
+              size: {
+                original: '999999999',
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              }
             });
-          }).to.throw('Invalid image size: 999999999');
+          }).to.throw('Invalid original image size: 999999999');
+        });
+
+        it('should throw if the original size is a float number', function() {
+          m.chai.expect(function() {
+            SelectionStateModel.setImage({
+              path: 'foo.img',
+              size: {
+                original: 999999999.999,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              }
+            });
+          }).to.throw('Invalid original image size: 999999999.999');
+        });
+
+        it('should throw if the original size is negative', function() {
+          m.chai.expect(function() {
+            SelectionStateModel.setImage({
+              path: 'foo.img',
+              size: {
+                original: -1,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              }
+            });
+          }).to.throw('Invalid original image size: -1');
+        });
+
+        it('should throw if the final size is not a number', function() {
+          m.chai.expect(function() {
+            SelectionStateModel.setImage({
+              path: 'foo.img',
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: '999999999'
+                }
+              }
+            });
+          }).to.throw('Invalid final image size: 999999999');
+        });
+
+        it('should throw if the final size is a float number', function() {
+          m.chai.expect(function() {
+            SelectionStateModel.setImage({
+              path: 'foo.img',
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: 999999999.999
+                }
+              }
+            });
+          }).to.throw('Invalid final image size: 999999999.999');
+        });
+
+        it('should throw if the final size is negative', function() {
+          m.chai.expect(function() {
+            SelectionStateModel.setImage({
+              path: 'foo.img',
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: -1
+                }
+              }
+            });
+          }).to.throw('Invalid final image size: -1');
+        });
+
+        it('should throw if the final size estimation flag is not a boolean', function() {
+          m.chai.expect(function() {
+            SelectionStateModel.setImage({
+              path: 'foo.img',
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: 'false',
+                  value: 999999999
+                }
+              }
+            });
+          }).to.throw('Invalid final image size estimation flag: false');
         });
 
         it('should throw if url is defined but its not a string', function() {
           m.chai.expect(function() {
             SelectionStateModel.setImage({
               path: 'foo.img',
-              size: 999999999,
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              },
               url: 1234
             });
           }).to.throw('Invalid image url: 1234');
@@ -426,7 +558,13 @@ describe('Browser: SelectionState', function() {
           m.chai.expect(function() {
             SelectionStateModel.setImage({
               path: 'foo.img',
-              size: 999999999,
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              },
               name: 1234
             });
           }).to.throw('Invalid image name: 1234');
@@ -436,7 +574,13 @@ describe('Browser: SelectionState', function() {
           m.chai.expect(function() {
             SelectionStateModel.setImage({
               path: 'foo.img',
-              size: 999999999,
+              size: {
+                original: 999999999,
+                final: {
+                  estimation: false,
+                  value: 999999999
+                }
+              },
               logo: 1234
             });
           }).to.throw('Invalid image logo: 1234');
@@ -457,7 +601,13 @@ describe('Browser: SelectionState', function() {
 
           SelectionStateModel.setImage({
             path: 'foo.img',
-            size: 9999999999
+            size: {
+              original: 9999999999,
+              final: {
+                estimation: false,
+                value: 9999999999
+              }
+            }
           });
 
           m.chai.expect(SelectionStateModel.hasDrive()).to.be.false;
@@ -479,7 +629,13 @@ describe('Browser: SelectionState', function() {
 
           SelectionStateModel.setImage({
             path: 'foo.img',
-            size: 999999999,
+            size: {
+              original: 999999999,
+              final: {
+                estimation: false,
+                value: 999999999
+              }
+            },
             recommendedDriveSize: 1500000000
           });
 
@@ -515,7 +671,13 @@ describe('Browser: SelectionState', function() {
 
           SelectionStateModel.setImage({
             path: imagePath,
-            size: 999999999
+            size: {
+              original: 999999999,
+              final: {
+                estimation: false,
+                value: 999999999
+              }
+            }
           });
 
           m.chai.expect(SelectionStateModel.hasDrive()).to.be.false;
@@ -542,7 +704,13 @@ describe('Browser: SelectionState', function() {
 
         SelectionStateModel.setImage({
           path: 'foo.img',
-          size: 999999999
+          size: {
+            original: 999999999,
+            final: {
+              estimation: false,
+              value: 999999999
+            }
+          }
         });
       });
 
