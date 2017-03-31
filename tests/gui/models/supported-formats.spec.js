@@ -133,7 +133,9 @@ describe('Browser: SupportedFormats', function() {
       ], (imagePath) => {
 
         it(`should return true if filename is ${imagePath}`, function() {
-          const looksLikeWindowsImage = SupportedFormatsModel.looksLikeWindowsImage(imagePath);
+          const looksLikeWindowsImage = SupportedFormatsModel.looksLikeWindowsImage({
+            path: imagePath
+          });
           m.chai.expect(looksLikeWindowsImage).to.be.true;
         });
 
@@ -145,7 +147,9 @@ describe('Browser: SupportedFormats', function() {
       ], (imagePath) => {
 
         it(`should return false if filename is ${imagePath}`, function() {
-          const looksLikeWindowsImage = SupportedFormatsModel.looksLikeWindowsImage(imagePath);
+          const looksLikeWindowsImage = SupportedFormatsModel.looksLikeWindowsImage({
+            path: imagePath
+          });
           m.chai.expect(looksLikeWindowsImage).to.be.false;
         });
 
