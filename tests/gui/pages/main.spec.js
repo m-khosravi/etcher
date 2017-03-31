@@ -2,6 +2,7 @@
 
 const m = require('mochainon');
 const _ = require('lodash');
+const supportedFormats = require('../../../lib/shared/supported-formats');
 const angular = require('angular');
 require('angular-mocks');
 
@@ -130,11 +131,9 @@ describe('Browser: MainPage', function() {
   describe('ImageSelectionController', function() {
 
     let $controller;
-    let SupportedFormatsModel;
 
-    beforeEach(angular.mock.inject(function(_$controller_, _SupportedFormatsModel_) {
+    beforeEach(angular.mock.inject(function(_$controller_) {
       $controller = _$controller_;
-      SupportedFormatsModel = _SupportedFormatsModel_;
     }));
 
     it('should contain all available extensions in mainSupportedExtensions and extraSupportedExtensions', function() {
@@ -144,7 +143,7 @@ describe('Browser: MainPage', function() {
       });
 
       const extensions = controller.mainSupportedExtensions.concat(controller.extraSupportedExtensions);
-      m.chai.expect(_.sortBy(extensions)).to.deep.equal(_.sortBy(SupportedFormatsModel.getAllExtensions()));
+      m.chai.expect(_.sortBy(extensions)).to.deep.equal(_.sortBy(supportedFormats.getAllExtensions()));
     });
 
   });
